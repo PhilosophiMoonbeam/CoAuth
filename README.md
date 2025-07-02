@@ -1,180 +1,145 @@
-<p align="center">
-    <a href="https://aider.chat/"><img src="https://aider.chat/assets/logo.svg" alt="Aider Logo" width="300"></a>
-</p>
+# **CoAuth: High-Level Technical Specification**
 
-<h1 align="center">
-AI Pair Programming in Your Terminal
-</h1>
+**Version:** 1.0
+**Date:** 2025-07-01
+**Author:** Expert Assistant
 
+## 1. Vision & Mission
 
-<p align="center">
-Aider lets you pair program with LLMs to start a new project or build on your existing codebase. 
-</p>
+**CoAuth** is an interactive, command-line tool for the creation, editing, and management of complex, multi-document narratives (both fiction and non-fiction). It forks the `aider-ai/aider` project, replacing its code-centric logic with a sophisticated cognitive architecture powered by the `DSPy` framework.
 
-<p align="center">
-  <img
-    src="https://aider.chat/assets/screencast.svg"
-    alt="aider screencast"
-  >
-</p>
+The mission is to transform `aider` from a code synthesizer into a **narrative synthesizer**—a powerful co-pilot that assists human authors with drafting, consistency, style, and structural organization, all within a familiar, git-synced terminal environment.
 
-<p align="center">
-<!--[[[cog
-from scripts.homepage import get_badges_md
-text = get_badges_md()
-cog.out(text)
-]]]-->
-  <a href="https://github.com/Aider-AI/aider/stargazers"><img alt="GitHub Stars" title="Total number of GitHub stars the Aider project has received"
-src="https://img.shields.io/github/stars/Aider-AI/aider?style=flat-square&logo=github&color=f1c40f&labelColor=555555"/></a>
-  <a href="https://pypi.org/project/aider-chat/"><img alt="PyPI Downloads" title="Total number of installations via pip from PyPI"
-src="https://img.shields.io/badge/📦%20Installs-2.7M-2ecc71?style=flat-square&labelColor=555555"/></a>
-  <img alt="Tokens per week" title="Number of tokens processed weekly by Aider users"
-src="https://img.shields.io/badge/📈%20Tokens%2Fweek-15B-3498db?style=flat-square&labelColor=555555"/>
-  <a href="https://openrouter.ai/#options-menu"><img alt="OpenRouter Ranking" title="Aider's ranking among applications on the OpenRouter platform"
-src="https://img.shields.io/badge/🏆%20OpenRouter-Top%2020-9b59b6?style=flat-square&labelColor=555555"/></a>
-  <a href="https://aider.chat/HISTORY.html"><img alt="Singularity" title="Percentage of the new code in Aider's last release written by Aider itself"
-src="https://img.shields.io/badge/🔄%20Singularity-21%25-e74c3c?style=flat-square&labelColor=555555"/></a>
-<!--[[[end]]]-->  
-</p>
+## 2. Core Design Principles
 
-## Features
+*   **Author in Control:** The user is the ultimate author. The tool suggests, drafts, and refactors, but all changes are presented for explicit user approval via a clear diff interface.
+*   **Modular Cognition:** The AI's "thinking" process is not a single monolithic prompt. It is a composable program of specialized modules (for plotting, dialogue, analysis, etc.) built with DSPy, allowing for clarity, optimization, and extensibility.
+*   **Grounded Creativity:** All creative generation is grounded in a dynamically updated project context (the "World Bible" and "Style Guide"), ensuring consistency in tone, character, and plot across the entire document corpus.
+*   **Separation of Concerns:** Semantic/creative tasks are handled by LLMs orchestrated by DSPy. Syntactic/structural tasks are handled by specialized, deterministic tools like `ast-grep`.
 
-### [Cloud and local LLMs](https://aider.chat/docs/llms.html)
+## 3. System Architecture
 
-<a href="https://aider.chat/docs/llms.html"><img src="https://aider.chat/assets/icons/brain.svg" width="32" height="32" align="left" valign="middle" style="margin-right:10px"></a>
-Aider works best with Claude 3.7 Sonnet, DeepSeek R1 & Chat V3, OpenAI o1, o3-mini & GPT-4o, but can connect to almost any LLM, including local models.
+The system is composed of four primary layers that interact to fulfill a user request.
 
-<br>
-
-### [Maps your codebase](https://aider.chat/docs/repomap.html)
-
-<a href="https://aider.chat/docs/repomap.html"><img src="https://aider.chat/assets/icons/map-outline.svg" width="32" height="32" align="left" valign="middle" style="margin-right:10px"></a>
-Aider makes a map of your entire codebase, which helps it work well in larger projects.
-
-<br>
-
-### [100+ code languages](https://aider.chat/docs/languages.html)
-
-<a href="https://aider.chat/docs/languages.html"><img src="https://aider.chat/assets/icons/code-tags.svg" width="32" height="32" align="left" valign="middle" style="margin-right:10px"></a>
-Aider works with most popular programming languages: python, javascript, rust, ruby, go, cpp, php, html, css, and dozens more.
-
-<br>
-
-### [Git integration](https://aider.chat/docs/git.html)
-
-<a href="https://aider.chat/docs/git.html"><img src="https://aider.chat/assets/icons/source-branch.svg" width="32" height="32" align="left" valign="middle" style="margin-right:10px"></a>
-Aider automatically commits changes with sensible commit messages. Use familiar git tools to easily diff, manage and undo AI changes.
-
-<br>
-
-### [Use in your IDE](https://aider.chat/docs/usage/watch.html)
-
-<a href="https://aider.chat/docs/usage/watch.html"><img src="https://aider.chat/assets/icons/monitor.svg" width="32" height="32" align="left" valign="middle" style="margin-right:10px"></a>
-Use aider from within your favorite IDE or editor. Ask for changes by adding comments to your code and aider will get to work.
-
-<br>
-
-### [Images & web pages](https://aider.chat/docs/usage/images-urls.html)
-
-<a href="https://aider.chat/docs/usage/images-urls.html"><img src="https://aider.chat/assets/icons/image-multiple.svg" width="32" height="32" align="left" valign="middle" style="margin-right:10px"></a>
-Add images and web pages to the chat to provide visual context, screenshots, reference docs, etc.
-
-<br>
-
-### [Voice-to-code](https://aider.chat/docs/usage/voice.html)
-
-<a href="https://aider.chat/docs/usage/voice.html"><img src="https://aider.chat/assets/icons/microphone.svg" width="32" height="32" align="left" valign="middle" style="margin-right:10px"></a>
-Speak with aider about your code! Request new features, test cases or bug fixes using your voice and let aider implement the changes.
-
-<br>
-
-### [Linting & testing](https://aider.chat/docs/usage/lint-test.html)
-
-<a href="https://aider.chat/docs/usage/lint-test.html"><img src="https://aider.chat/assets/icons/check-all.svg" width="32" height="32" align="left" valign="middle" style="margin-right:10px"></a>
-Automatically lint and test your code every time aider makes changes. Aider can fix problems detected by your linters and test suites.
-
-<br>
-
-### [Copy/paste to web chat](https://aider.chat/docs/usage/copypaste.html)
-
-<a href="https://aider.chat/docs/usage/copypaste.html"><img src="https://aider.chat/assets/icons/content-copy.svg" width="32" height="32" align="left" valign="middle" style="margin-right:10px"></a>
-Work with any LLM via its web chat interface. Aider streamlines copy/pasting code context and edits back and forth with a browser.
-
-## Getting Started
-
-```bash
-python -m pip install aider-install
-aider-install
-
-# Change directory into your codebase
-cd /to/your/project
-
-# DeepSeek
-aider --model deepseek --api-key deepseek=<key>
-
-# Claude 3.7 Sonnet
-aider --model sonnet --api-key anthropic=<key>
-
-# o3-mini
-aider --model o3-mini --api-key openai=<key>
+```
++--------------------------------------------------------------------------+
+|   User via Terminal                                                      |
++--------------------------------------------------------------------------+
+       |                                      ^
+       | User Command (e.g., "Flesh out     | Display Diff &
+       | scene 2 in chapter 1")             | Request Approval
+       v                                      |
++--------------------------------------------------------------------------+
+| 4. SHELL (Aider Fork)                                                    |
+|   - Command History & Chat UI                                            |
+|   - File System Management (/add, /drop)                                 |
+|   - Git Integration (auto-commit)                                        |
+|   - Internal Diff Engine (difflib)                                       |
++--------------------------------------------------------------------------+
+       |                                      ^
+       | Parsed Request (Intent, Target)    | Approved Block Replacement
+       v                                      |
++--------------------------------------------------------------------------+
+| 3. COGNITIVE CORE (DSPy Program)                                         |
+|   - Intent Router                                                        |
+|   - Program Dispatcher (selects and runs modules)                        |
+|   - Modules: Planner, Drafter, Editor, Analyzer, ConsistencyChecker      |
++--------------------------------------------------------------------------+
+       |                  |                  ^
+       | Calls Tools      | Reads/Writes     | Results
+       | for specific     | to Memory        | from Tools
+       | tasks            | for context      | and Memory
+       v                  v                  |
++----------------------+---------------------------------------------------+
+| 2. TOOLING LAYER     | 1. MEMORY SYSTEM                                  |
+|   - ast-grep       |   - Long-Term: "World Bible" & "Style Guide"      |
+|     (Structural    |     (Vectorized Markdown files)                   |
+|      Refactoring)  |   - Short-Term: Conversation History              |
+|   - ...other tools |                                                   |
++----------------------+---------------------------------------------------+
 ```
 
-See the [installation instructions](https://aider.chat/docs/install.html) and [usage documentation](https://aider.chat/docs/usage.html) for more details.
+## 4. Component Specification
 
-## More Information
+### 4.1. Memory System
+*   **Long-Term Memory ("World Bible"):**
+    *   **Technology:** A designated `/world_bible/` directory containing Markdown files for characters, locations, lore, etc.
+    *   **Mechanism:** On startup or by command (`/reindex`), files in this directory are parsed, chunked, and embedded into a vector store (e.g., LanceDB, ChromaDB). This provides fast semantic search for grounding prompts.
+    *   **Style Guide:** A `style_guide.md` file is used by DSPy optimizers to tune prompts to the author's voice.
+*   **Short-Term Memory:**
+    *   **Technology:** Standard conversation history buffer.
+    *   **Mechanism:** Provides immediate context for follow-up commands.
 
-### Documentation
-- [Installation Guide](https://aider.chat/docs/install.html)
-- [Usage Guide](https://aider.chat/docs/usage.html)
-- [Tutorial Videos](https://aider.chat/docs/usage/tutorials.html)
-- [Connecting to LLMs](https://aider.chat/docs/llms.html)
-- [Configuration Options](https://aider.chat/docs/config.html)
-- [Troubleshooting](https://aider.chat/docs/troubleshooting.html)
-- [FAQ](https://aider.chat/docs/faq.html)
+### 4.2. Tooling Layer
+*   **Purpose:** To execute deterministic, non-creative tasks with high precision and speed.
+*   **Primary Tool: `ast-grep`**
+    *   **Integration:** Available via specific user commands (e.g., `/demote-headings`, `/update-links`).
+    *   **Function:** The Shell will translate these commands into `ast-grep` rules and execute them directly on the target Markdown files, bypassing the Cognitive Core. It provides a way to refactor the document *structure*.
 
-### Community & Resources
-- [LLM Leaderboards](https://aider.chat/docs/leaderboards/)
-- [GitHub Repository](https://github.com/Aider-AI/aider)
-- [Discord Community](https://discord.gg/Y7X7bhMQFV)
-- [Release notes](https://aider.chat/HISTORY.html)
-- [Blog](https://aider.chat/blog/)
+### 4.3. Cognitive Core (The DSPy Engine)
+*   **Purpose:** To interpret user intent and orchestrate LLM calls to perform creative and analytical work.
+*   **Core Component:** A main `DSPy.Program` that routes requests.
+*   **Key DSPy Modules & Signatures:**
+    *   **`IntentRouter`**: `UserCommand -> Intent, TargetFiles, Instructions`
+        *   Classifies if the request is for drafting, editing, analysis, or structural refactoring.
+    *   **`Planner` (`dspy.ChainOfThought`)**: `Instructions, WorldContext -> Outline`
+        *   Breaks down a high-level request (e.g., "write a chapter") into a structured outline.
+    *   **`Drafter`**: `Outline, StyleGuide, WorldContext -> DraftText`
+        *   Generates prose based on the planner's outline and stylistic guidance.
+    *   **`Editor`**: `OriginalText, Instructions, StyleGuide -> RevisedText`
+        *   Revises an existing block of text based on user feedback.
+    *   **`ConsistencyChecker` (`dspy.ReAct`)**: `Question, CorpusFiles -> Answer, Citations`
+        *   Can iteratively read files in the context to answer user questions about plot holes, character consistency, etc.
 
-## Kind Words From Users
+### 4.4. The Shell (Aider Fork)
+*   **Base:** `aider-ai/aider` repository.
+*   **Key Modifications:**
+    1.  **De-emphasize Code Logic:** Remove code-specific language parsers and functionality not relevant to Markdown.
+    2.  **Modify Edit/Diff Workflow:**
+        *   The LLM (via the `Editor` module) will no longer be prompted to generate a diff. It will return a complete, revised block of text.
+        *   The Shell will use Python's `difflib` to compute the diff between the original and revised blocks.
+        *   This clean, localized diff is presented to the user for approval.
+        *   On approval, the Shell performs a whole-block replacement in the target file.
+    3.  **Command Expansion:** Add new commands (`/reindex`, `/check-consistency`, `/demote-headings`) that trigger specific programs in the Cognitive Core or tools in the Tooling Layer.
 
-- *"My life has changed... Aider... It's going to rock your world."* — [Eric S. Raymond on X](https://x.com/esrtweet/status/1910809356381413593)
-- *"The best free open source AI coding assistant."* — [IndyDevDan on YouTube](https://youtu.be/YALpX8oOn78)
-- *"The best AI coding assistant so far."* — [Matthew Berman on YouTube](https://www.youtube.com/watch?v=df8afeb1FY8)
-- *"Aider ... has easily quadrupled my coding productivity."* — [SOLAR_FIELDS on Hacker News](https://news.ycombinator.com/item?id=36212100)
-- *"It's a cool workflow... Aider's ergonomics are perfect for me."* — [qup on Hacker News](https://news.ycombinator.com/item?id=38185326)
-- *"It's really like having your senior developer live right in your Git repo - truly amazing!"* — [rappster on GitHub](https://github.com/Aider-AI/aider/issues/124)
-- *"What an amazing tool. It's incredible."* — [valyagolev on GitHub](https://github.com/Aider-AI/aider/issues/6#issue-1722897858)
-- *"Aider is such an astounding thing!"* — [cgrothaus on GitHub](https://github.com/Aider-AI/aider/issues/82#issuecomment-1631876700)
-- *"It was WAY faster than I would be getting off the ground and making the first few working versions."* — [Daniel Feldman on X](https://twitter.com/d_feldman/status/1662295077387923456)
-- *"THANK YOU for Aider! It really feels like a glimpse into the future of coding."* — [derwiki on Hacker News](https://news.ycombinator.com/item?id=38205643)
-- *"It's just amazing. It is freeing me to do things I felt were out my comfort zone before."* — [Dougie on Discord](https://discord.com/channels/1131200896827654144/1174002618058678323/1174084556257775656)
-- *"This project is stellar."* — [funkytaco on GitHub](https://github.com/Aider-AI/aider/issues/112#issuecomment-1637429008)
-- *"Amazing project, definitely the best AI coding assistant I've used."* — [joshuavial on GitHub](https://github.com/Aider-AI/aider/issues/84)
-- *"I absolutely love using Aider ... It makes software development feel so much lighter as an experience."* — [principalideal0 on Discord](https://discord.com/channels/1131200896827654144/1133421607499595858/1229689636012691468)
-- *"I have been recovering from ... surgeries ... aider ... has allowed me to continue productivity."* — [codeninja on Reddit](https://www.reddit.com/r/OpenAI/s/nmNwkHy1zG)
-- *"I am an aider addict. I'm getting so much more work done, but in less time."* — [dandandan on Discord](https://discord.com/channels/1131200896827654144/1131200896827654149/1135913253483069470)
-- *"Aider... blows everything else out of the water hands down, there's no competition whatsoever."* — [SystemSculpt on Discord](https://discord.com/channels/1131200896827654144/1131200896827654149/1178736602797846548)
-- *"Aider is amazing, coupled with Sonnet 3.5 it's quite mind blowing."* — [Josh Dingus on Discord](https://discord.com/channels/1131200896827654144/1133060684540813372/1262374225298198548)
-- *"Hands down, this is the best AI coding assistant tool so far."* — [IndyDevDan on YouTube](https://www.youtube.com/watch?v=MPYFPvxfGZs)
-- *"[Aider] changed my daily coding workflows. It's mind-blowing how ...(it)... can change your life."* — [maledorak on Discord](https://discord.com/channels/1131200896827654144/1131200896827654149/1258453375620747264)
-- *"Best agent for actual dev work in existing codebases."* — [Nick Dobos on X](https://twitter.com/NickADobos/status/1690408967963652097?s=20)
-- *"One of my favorite pieces of software. Blazing trails on new paradigms!"* — [Chris Wall on X](https://x.com/chris65536/status/1905053299251798432)
-- *"Aider has been revolutionary for me and my work."* — [Starry Hope on X](https://x.com/starryhopeblog/status/1904985812137132056)
-- *"Try aider! One of the best ways to vibe code."* — [Chris Wall on X](https://x.com/Chris65536/status/1905053418961391929)
-- *"Freaking love Aider."* — [hztar on Hacker News](https://news.ycombinator.com/item?id=44035015)
-- *"Aider is hands down the best. And it's free and opensource."* — [AriyaSavakaLurker on Reddit](https://www.reddit.com/r/ChatGPTCoding/comments/1ik16y6/whats_your_take_on_aider/mbip39n/)
-- *"Aider is also my best friend."* — [jzn21 on Reddit](https://www.reddit.com/r/ChatGPTCoding/comments/1heuvuo/aider_vs_cline_vs_windsurf_vs_cursor/m27dcnb/)
-- *"Try Aider, it's worth it."* — [jorgejhms on Reddit](https://www.reddit.com/r/ChatGPTCoding/comments/1heuvuo/aider_vs_cline_vs_windsurf_vs_cursor/m27cp99/)
-- *"I like aider :)"* — [Chenwei Cui on X](https://x.com/ccui42/status/1904965344999145698)
-- *"Aider is the precision tool of LLM code gen... Minimal, thoughtful and capable of surgical changes ... while keeping the developer in control."* — [Reilly Sweetland on X](https://x.com/rsweetland/status/1904963807237259586)
-- *"Cannot believe aider vibe coded a 650 LOC feature across service and cli today in 1 shot."* - [autopoietist on Discord](https://discord.com/channels/1131200896827654144/1131200896827654149/1355675042259796101)
-- *"Oh no the secret is out! Yes, Aider is the best coding tool around. I highly, highly recommend it to anyone."* — [Joshua D Vander Hook on X](https://x.com/jodavaho/status/1911154899057795218)
-- *"thanks to aider, i have started and finished three personal projects within the last two days"* — [joseph stalzyn on X](https://x.com/anitaheeder/status/1908338609645904160)
-- *"Been using aider as my daily driver for over a year ... I absolutely love the tool, like beyond words."* — [koleok on Discord](https://discord.com/channels/1131200896827654144/1273248471394291754/1356727448372252783)
-- *"Aider ... is the tool to benchmark against."* — [BeetleB on Hacker News](https://news.ycombinator.com/item?id=43930201)
-- *"aider is really cool"* — [kache on X](https://x.com/yacineMTB/status/1911224442430124387)
+## 5. Key User Workflows
 
+*   **Workflow A: Creative Drafting**
+    1.  **User:** `/add chapter_5.md`. "Draft the next scene where Elara discovers the hidden message."
+    2.  **Shell:** Sends request to Cognitive Core.
+    3.  **Core:** `IntentRouter` classifies as "drafting." `Planner` consults World Bible for context on Elara/messages and creates an outline. `Drafter` writes the scene based on the outline.
+    4.  **Shell:** Receives the new text for the scene, diffs it against an empty string (since it's new content), and presents the full text block to the user for approval.
+    5.  **User:** Approves (`y`).
+    6.  **Shell:** Writes the text to `chapter_5.md` and creates a git commit.
+
+*   **Workflow B: Analytical Query**
+    1.  **User:** "In which chapter did Elara first get her sword? Was it described the same way it is in chapter 5?"
+    2.  **Shell:** Sends request to Cognitive Core.
+    3.  **Core:** `IntentRouter` classifies as "analysis." The `ConsistencyChecker` (`ReAct`) module is activated. It forms a plan: 1) Search for "sword" across all files. 2) Read relevant sections. 3) Compare descriptions. 4) Synthesize an answer.
+    4.  **Shell:** Receives the final answer with citations (e.g., "In `chapter_2.md`, it was described as... In `chapter_5.md`, it's described as... They are consistent.") and displays it to the user.
+
+*   **Workflow C: Structural Refactoring**
+    1.  **User:** `/demote-headings chapter_3.md`
+    2.  **Shell:** Recognizes this as a command for the Tooling Layer.
+    3.  **Tooling Layer:** The Shell constructs and executes the command: `ast-grep -r '## $H' -i chapter_3.md --rewrite '### $H'`.
+    4.  **Shell:** The change happens directly on the file. The Shell uses `git diff` to show the user the structural changes that were made and asks for approval to commit.
+
+## 6. Technology Stack
+
+*   **Language:** Python 3.11+
+*   **Base Framework:** `aider-ai/aider`
+*   **Cognitive Framework:** `stanford-futuredata/dspy-ai`
+*   **LLM API:** OpenAI API, Anthropic, or any other `dspy`-compatible endpoint.
+*   **Structural Parsing:** `ast-grep`
+*   **Diffing:** Python `difflib`
+*   **Version Control:** `GitPython`
+*   **Vector DB (optional, for World Bible):** `lancedb`, `chromadb`
+
+## 7. Challenges & Mitigation
+
+*   **Long-Range Consistency:** An LLM's finite context window.
+    *   **Mitigation:** The `ReAct`-based `ConsistencyChecker` and the vectorized "World Bible" are designed specifically to overcome this by allowing the agent to actively pull relevant context from the entire project corpus as needed.
+*   **Subjectivity of Quality:** "Good" writing is subjective.
+    *   **Mitigation:** The tool is a co-pilot, not an autopilot. The diff-and-approve workflow ensures user control. The DSPy optimizers, trained on a user's `style_guide.md`, will help align the AI's output with the user's specific taste.
+*   **Cost & Latency:** Multi-step DSPy programs can be slow and expensive.
+    *   **Mitigation:** Implement a multi-LLM strategy. Use smaller, faster models (e.g., Haiku, Llama 3 8B) for simple tasks like intent routing, and more powerful models (e.g., GPT-4o, Claude 3 Opus) for drafting and complex analysis. Provide clear feedback to the user during long-running operations.
